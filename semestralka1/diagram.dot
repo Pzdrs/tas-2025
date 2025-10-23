@@ -1,0 +1,60 @@
+digraph Semestralka {
+    rankdir=LR;
+    node [shape=circle,fontname="Courier"];
+
+    /* Accept state */
+    q_finish [shape=doublecircle,label="q_finish"];
+
+    /* Initialization states */
+    q0 [shape=doublecircle,label="q0"];
+    q_init_b3 [label="q_init_b3"];
+    q_init_b2 [label="q_init_b2"];
+    q_init_b1 [label="q_init_b1"];
+    q_init_b0 [label="q_init_b0"];
+    q5 [label="q5"];
+    q_ret [label="q_ret"];
+    q7 [label="q7"];
+    q_goto_cnt [label="q_goto_cnt"];
+    q_goto_lsb [label="q_goto_lsb"];
+    q_inc_b3 [label="q_inc_b3"];
+    q_inc_b2 [label="q_inc_b2"];
+    q_inc_b1 [label="q_inc_b1"];
+    q_inc_b0 [label="q_inc_b0"];
+
+    /* ================= Initialization ================= */
+    q0 -> q0 [label="1 → 1, R"];
+    q0 -> q_init_b3 [label="_ → #, R"];
+
+    q_init_b3 -> q_init_b2 [label="_ → 0, R"];
+    q_init_b2 -> q_init_b1 [label="_ → 0, R"];
+    q_init_b1 -> q_init_b0 [label="_ → 0, R"];
+    q_init_b0 -> q5 [label="_ → 0, R"];
+
+    q5 -> q_ret [label="_ → _, L"];
+
+    /* ================= Return to input ================= */
+    q_ret -> q_ret [label="0 → 0, L\n1 → 1, L\n# → #, L"];
+    q_ret -> q7 [label="_ → _, R"];
+
+    /* ================= Main loop ================= */
+    q7 -> q_finish [label="# → _, R"];
+    q7 -> q_goto_cnt [label="1 → _, R"];
+
+    q_goto_cnt -> q_goto_cnt [label="1 → 1, R"];
+    q_goto_cnt -> q_goto_lsb [label="# → #, R"];
+
+    q_goto_lsb -> q_goto_lsb [label="1 → 1, R\n0 → 0, R"];
+    q_goto_lsb -> q_inc_b3 [label="_ → _, L"];
+
+    /* ================= Increment 4-bit counter ================= */
+    q_inc_b3 -> q_ret [label="0 → 1, L"];
+    q_inc_b3 -> q_inc_b2 [label="1 → 0, L"];
+
+    q_inc_b2 -> q_ret [label="0 → 1, L"];
+    q_inc_b2 -> q_inc_b1 [label="1 → 0, L"];
+
+    q_inc_b1 -> q_ret [label="0 → 1, L"];
+    q_inc_b1 -> q_inc_b0 [label="1 → 0, L"];
+
+    q_inc_b0 -> q_ret [label="0 → 1, L\n1 → 0, L"];
+}
