@@ -22,7 +22,12 @@
         devShells.default = pkgs.mkShell {
           buildInputs = with pkgs; [
             graphviz
+            typst
+            xdg-utils
+            gnumake
           ];
+
+          SOURCE_DATE_EPOCH = 1735689600;
         };
       }
     );

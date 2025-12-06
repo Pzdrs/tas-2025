@@ -1,0 +1,3 @@
+Apart from some new terminology, insights into algorithmic efficiency and maybe NP problems as a whole, not much new groundbreaking knowledge was gained from the work put into this assignment. It was obvious from the start that the brute-force approach would yield optimal solutions at the cost of exponential time complexity, while the more optimized approach would trade off some solution quality for significantly improved performance.
+
+As a side note, writing a quick and dirty MS Word document to summarize the results would have been quite enough I'm sure, but I'll have to write my Master's thesis in Typst too, so I figured why not get some practice in now.
