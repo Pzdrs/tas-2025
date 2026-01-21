@@ -1,12 +1,13 @@
+import math
 from matplotlib import pyplot as plt
 
 SIZE = 35
 IPS = 600_000
 IPS_GREEDY = 1_200_000
 
-x = range(SIZE)
+x = range(1, SIZE)
 brute_force = [(2**i) / IPS for i in x]
-optimized = [(4 * i) / IPS for i in x]
+optimized = [(4 * i * math.log(i)) / IPS_GREEDY for i in x]
 
 fig, ax1 = plt.subplots()
 
@@ -16,7 +17,7 @@ ax1.tick_params(axis="y", labelcolor="tab:red")
 
 ax2 = ax1.twinx()
 
-ax2.plot(x, optimized, color="tab:blue", label="Greedy approach O(4n)")
+ax2.plot(x, optimized, color="tab:blue", label="Greedy approach O(n * log n)")
 ax2.set_ylabel("Seconds", color="tab:blue")
 ax2.tick_params(axis="y", labelcolor="tab:blue")
 

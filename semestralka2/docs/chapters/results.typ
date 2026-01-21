@@ -6,19 +6,19 @@ As it usually is with brute-force algorithms, the time complexity grows exponent
 
 This is because all possible combinations of items need to be evaluated to ensure the optimal solution is found. With each additional item, the number of possible combinations doubles. For example, running the algorithm over a set of 22 items results in a runtime of \~8 seconds, while increasing the set to 23 items results in a runtime of \~16 seconds, and 24 items leads to \~32 seconds, and so on.
 
-In contrast, the greedy heuristic has a linear time complexity:
+In contrast, the greedy heuristic has a logarithmic time complexity:
 
 #align(center)[
-  $"Time(n)" = O(n)$, where $n = |S|$ is the cardinality of the input item set $S$
+  $"Time(n)" = O(n * log n)$, where $n = |S|$ is the cardinality of the input item set $S$
 ]
 
-More specifically, the time complexity for our particular implementation is $O(4n)$, since it evaluates four different scoring functions, each requiring a single pass through the list of items to sort them and another pass to select items based on the sorted order. However, in Big O notation, constant factors are disregarded @bigo-constant-factors, so it simplifies to $O(n)$.
+More specifically, the time complexity for our particular implementation is $O(4 * n * log n)$, since it evaluates four different scoring functions, each requiring a single pass through the list of items to sort them and another pass to select items based on the sorted order. However, in Big O notation, constant factors are disregarded @bigo-constant-factors, so it simplifies to $O(n * log n)$.
 
-The time complexities of the two approaches are illustrated in @alg-time-complexity-graph, where the exponential growth of the brute-force method is clearly contrasted with the linear growth of the greedy heuristic.
+The time complexities of the two approaches are illustrated in @alg-time-complexity-graph, where the exponential growth of the brute-force method is clearly contrasted with the logarithmic growth of the greedy heuristic.
 
 #figure(
   image("../assets/bf-vs-greedy-time-complexity.png", width: 135%),
-  caption: [Exponential vs. linear runtime behaviour of BF and greedy knapsack algorithms.],
+  caption: [Exponential vs. logarithmic runtime behaviour of BF and greedy knapsack algorithms.],
 ) <alg-time-complexity-graph>
 
 As indicated by the vastly different scales of the two y-axes, the brute-force method becomes computationally infeasible even for moderately large input sizes. In contrast, the greedy heuristic maintains low and predictable running times as the number of items increases, making it suitable for practical use in real-world scenarios.
@@ -88,34 +88,37 @@ Since $n$ must be an integer:
 
 === Greedy
 
-Considering $"Iter(n)" = 4n$, start with the inequality:
+Considering $"Iter(n)" = 4n * log_2 n$, start with the inequality:
 
-#align(center)[$ 4n <= 3600 #sym.dot "IPS" $]
-
-Solve for $n$:
-
-#align(center)[$ n <= (3600 #sym.dot "IPS") / 4 $]
+#align(center)[$ 4n * log_2 n <= 3600 #sym.dot "IPS" $]
 
 Substitute $"IPS" = 1200000$:
 
 #align(center)[
-  $ n <= (3600 #sym.dot 1200000) / 4 $
+$ 4n * log_2 n <= 3600 #sym.dot 1200000 $
 ]
 
-Simplify:
+Simplify the right-hand side:
 
 #align(center)[
-  $ n <= 900 #sym.dot 1200000 $
+$ 4n * log_2 n <= 4320000000 $
 ]
 
-Compute:
+Divide both sides by $4$:
 
 #align(center)[
-  $ n <= 1080000000 $
+$ n * log_2 n <= 1080000000 $
+]
+
+This inequality cannot be solved analytically for $n$, so we approximate numerically.
+Testing values shows that the bound is reached for approximately:
+
+#align(center)[
+$ n #sym.approx 4 #sym.dot 10^7 $
 ]
 
 Thus:
 
 #align(center)[
-  $ n_max^"(greedy)" = bold(1080000000) $
+$ n_max^"(greedy)" #sym.approx bold(40000000) $
 ]
